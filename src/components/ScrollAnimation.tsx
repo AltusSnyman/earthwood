@@ -200,10 +200,10 @@ export default function ScrollAnimation() {
       <div className="sticky top-0 left-0 w-full overflow-hidden" style={{ height: "100dvh", background: "#e8e8e8" }}>
         <canvas ref={canvasRef} style={{ display: "block", width: "100%", height: "100%" }} />
 
-        {/* Mobile welcome & scroll hint — top letterbox area, fades out on scroll */}
+        {/* Mobile — welcome text in top letterbox, clears fixed navbar */}
         <div
           className="absolute inset-x-0 top-0 flex flex-col items-center justify-center md:hidden pointer-events-none"
-          style={{ height: "30%", opacity: Math.max(0, 1 - progress / 0.04) }}
+          style={{ height: "30%", paddingTop: "72px", opacity: Math.max(0, 1 - progress / 0.04) }}
         >
           <p className="text-[11px] font-medium tracking-[0.35em] uppercase text-neutral-400 mb-3">
             Welcome
@@ -211,7 +211,14 @@ export default function ScrollAnimation() {
           <h2 className="text-3xl font-light italic tracking-wide text-neutral-600">
             EarthWood
           </h2>
-          <div className="mt-6 flex flex-col items-center gap-1" style={{ animation: "scrollBounce 1.8s ease-in-out infinite" }}>
+        </div>
+
+        {/* Mobile — scroll hint in bottom letterbox, above the fold */}
+        <div
+          className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center md:hidden pointer-events-none"
+          style={{ height: "30%", opacity: Math.max(0, 1 - progress / 0.04) }}
+        >
+          <div className="flex flex-col items-center gap-1" style={{ animation: "scrollBounce 1.8s ease-in-out infinite" }}>
             <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-neutral-400">Scroll</span>
             <ChevronDown size={14} className="text-neutral-400" />
           </div>
