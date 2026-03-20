@@ -175,7 +175,7 @@ export default function ScrollAnimation() {
   }, [ready]);
 
   return (
-    <section ref={sectionRef} style={{ height: "500vh" }} className="relative">
+    <section ref={sectionRef} style={{ height: "500dvh" }} className="relative">
       {/* Loader */}
       {!ready && (
         <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white">
@@ -189,8 +189,8 @@ export default function ScrollAnimation() {
         </div>
       )}
 
-      {/* Sticky viewport — pinned while scrolling through 500vh */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden" style={{ background: "#e8e8e8" }}>
+      {/* Sticky viewport — pinned while scrolling through 500dvh */}
+      <div className="sticky top-0 left-0 w-full overflow-hidden" style={{ height: "100dvh", background: "#e8e8e8" }}>
         <canvas ref={canvasRef} style={{ display: "block", width: "100%", height: "100%" }} />
 
         {/* Phase overlay cards */}
