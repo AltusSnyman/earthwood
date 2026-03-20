@@ -109,12 +109,18 @@ export default function ScrollAnimation() {
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // object-fit: cover
     const ir = img.naturalWidth / img.naturalHeight;
     const cr = w / h;
     let dw: number, dh: number, dx: number, dy: number;
-    if (ir > cr) { dh = h; dw = h * ir; dx = (w - dw) / 2; dy = 0; }
-    else { dw = w; dh = w / ir; dx = 0; dy = (h - dh) / 2; }
+
+    if (cr >= 1) {
+      // Landscape/square canvas (desktop): object-fit cover
+      if (ir > cr) { dh = h; dw = h * ir; dx = (w - dw) / 2; dy = 0; }
+      else { dw = w; dh = w / ir; dx = 0; dy = (h - dh) / 2; }
+    } else {
+      // Portrait canvas (mobile): scale to fill width, center vertically
+      dw = w; dh = w / ir; dx = 0; dy = (h - dh) / 2;
+    }
 
     ctx.drawImage(img, dx, dy, dw, dh);
   }, []);
