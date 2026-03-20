@@ -203,7 +203,7 @@ export default function ScrollAnimation() {
         {/* Mobile — welcome text in top letterbox, clears fixed navbar */}
         <div
           className="absolute inset-x-0 top-0 flex flex-col items-center justify-center md:hidden pointer-events-none"
-          style={{ height: "30%", paddingTop: "72px", opacity: Math.max(0, 1 - progress / 0.04) }}
+          style={{ height: "30%", paddingTop: "72px" }}
         >
           <p className="text-[11px] font-medium tracking-[0.35em] uppercase text-neutral-400 mb-3">
             Welcome
@@ -216,7 +216,7 @@ export default function ScrollAnimation() {
         {/* Mobile — scroll hint in bottom letterbox, above the fold */}
         <div
           className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-center md:hidden pointer-events-none"
-          style={{ height: "30%", opacity: Math.max(0, 1 - progress / 0.04) }}
+          style={{ height: "30%" }}
         >
           <div className="flex flex-col items-center gap-1" style={{ animation: "scrollBounce 1.8s ease-in-out infinite" }}>
             <span className="text-[10px] font-medium tracking-[0.3em] uppercase text-neutral-400">Scroll</span>
