@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -12,6 +12,44 @@ const stats = [
   { value: "AKL", label: "Auckland-Wide" },
   { value: "Free", label: "Consult" },
 ];
+
+function AnimatedStat({ value, label }: { value: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [display, setDisplay] = useState(value);
+
+  useEffect(() => {
+    const match = value.match(/^(\d+)(.*)$/);
+    if (!match) return; // non-numeric — show as-is
+
+    const target = parseInt(match[1]);
+    const suffix = match[2];
+    const duration = 1400;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+
+      const startTime = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        setDisplay(`${Math.round(eased * target)}${suffix}`);
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [value]);
+
+  return (
+    <div ref={ref}>
+      <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#111]">{display}</p>
+      <p className="mt-1 text-[11px] sm:text-xs font-medium tracking-widest uppercase text-neutral-500">{label}</p>
+    </div>
+  );
+}
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -116,14 +154,7 @@ export default function HeroSection() {
             <div className="glass-thick rounded-2xl px-6 py-5 sm:px-10 sm:py-6">
               <div className="grid grid-cols-4 gap-4 text-center">
                 {stats.map((stat) => (
-                  <div key={stat.label}>
-                    <p className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#111]">
-                      {stat.value}
-                    </p>
-                    <p className="mt-1 text-[11px] sm:text-xs font-medium tracking-widest uppercase text-neutral-500">
-                      {stat.label}
-                    </p>
-                  </div>
+                  <AnimatedStat key={stat.label} value={stat.value} label={stat.label} />
                 ))}
               </div>
             </div>
